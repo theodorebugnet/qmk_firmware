@@ -20,18 +20,19 @@ enum customKeycodes {
 
 
 //TODO/MISSING: SysRq, PrtSc. Also NumLk, ScrlLk, Pause/Break, Insert.
+//Additional features: something extra on Del (MEH?)
 //Additional features: Numpad
-//Additional features: swap SYMB and NUMB
+//Additional features: swap SYMB and NUMB on demand
 //Additional features: QWERTY mode
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
  * ,-------------------------------------------.                         ,-------------------------------------------.
- * |Hypr/Tab|   Q  |   D  |   R  |   W  |   B  |                         |   J  |   F  |   U  |   P  | ;  : |  Del   |
+ * |  Tab   |   Q  |   D  |   R  |   W  |   B  |                         |   J  |   F  |   U  |   P  | ;  : |  Del   |
  * |--------+------+------+------+------+------|------.           ,------|------+------+------+------+------+--------|
- * |Ctrl/Esc|   A  |   S  |   H  |   T  |   G  | back |           |Aplctn|   Y  |   N  |   E  |   O  |   I  |Ctrl/'" |
+ * |Ctrl/Esc|   A  |   S  |   H  |   T  |   G  |Ctrl+B|           |Aplctn|   Y  |   N  |   E  |   O  |   I  |Ctrl/'" |
  * |--------+------+------+------+------+------|------|           |------|------+------+------+------+------+--------|
- * |Sft/Bspc|   Z  |   X  |   M  |   C  |   V  | frws |           |[BALL]|   K  |   L  | ,  < | .  > | /  ? |Sft/Ent |
+ * |Sft/Bspc|   Z  |   X  |   M  |   C  |   V  | back |           |[BALL]|   K  |   L  | ,  < | .  > | /  ? |Sft/Ent |
  * `--------------------------------------------------'           `--------------------------------------------------'
  *                    ,----------.   ,-------.                             ,-------.   ,----------.
  *                    | Alt/Home |   |Ctr/PgD|                             |Sup/PgU|   | RAlt/End |
@@ -39,27 +40,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------.                   ,-------.
  *                                        | back  |                   | frwd  |
  *                                 ,------|-------|                   |-------|------.
- *                                 | NUMB | SYMB  |                   | NUMB  | SYMB |
- *                                 | Space| Escape|                   | Ent   |Space |
+ *                                 | SYMB | NUMB  |                   | SYMB  | NUMB |
+ *                                 | Space| Escape|                   | Bspc  |Space |
  *                                 |      |       |                   |       |      |
  *                                 `--------------'                   `--------------'
  */
 //What to put above space keys (instead of MMB and PgDn)? Leader combos for stuff? Caps lock and Num Lock (i.e. =calc/pad mode)?
 //Put back/forward somewhere else? Put what in their place? The leader combos?
 [BASE] = LAYOUT_gergo(
-    MT(MOD_HYPR, KC_TAB),  KC_Q, KC_D, KC_R, KC_W, KC_B,                                            KC_J, KC_F, KC_U,    KC_P,   KC_SCLN, KC_DEL,
-    MT(MOD_LCTL, KC_ESC),  KC_A, KC_S, KC_H, KC_T, KC_G, KC_WBAK,                          KC_APP,  KC_Y, KC_N, KC_E,    KC_O,   KC_I,    MT(MOD_RCTL, KC_QUOT),
-    MT(MOD_LSFT, KC_BSPC), KC_Z, KC_X, KC_M, KC_C, KC_V, KC_WFWD, KC_WBAK,        KC_WFWD, KC_TRNS, KC_K, KC_L, KC_COMM, KC_DOT, KC_SLSH, MT(KC_RSFT, KC_ENT),
-MT(MOD_LALT, KC_HOME), MT(MOD_LCTL, KC_PGDN), LT(NUMB, KC_SPC), LT(SYMB, KC_ESC), LT(NUMB, KC_ENT), LT(SYMB, KC_SPC), MT(MOD_RGUI, KC_PGUP), MT(MOD_RALT, KC_END)
+    KC_TAB,                KC_Q, KC_D, KC_R, KC_W, KC_B,                                            KC_J, KC_F, KC_U,    KC_P,   KC_SCLN, KC_DEL,
+    MT(MOD_LCTL, KC_ESC),  KC_A, KC_S, KC_H, KC_T, KC_G, LCTL(KC_B),                       KC_APP,  KC_Y, KC_N, KC_E,    KC_O,   KC_I,    MT(MOD_RCTL, KC_QUOT),
+    MT(MOD_LSFT, KC_BSPC), KC_Z, KC_X, KC_M, KC_C, KC_V, KC_WBAK, KC_WBAK,        KC_WFWD, KC_TRNS, KC_K, KC_L, KC_COMM, KC_DOT, KC_SLSH, MT(MOD_RSFT, KC_ENT),
+MT(MOD_LALT, KC_HOME), MT(MOD_LCTL, KC_PGDN), LT(SYMB, KC_SPC), LT(NUMB, KC_ESC), LT(SYMB, KC_BSPC), LT(NUMB, KC_SPC), MT(MOD_RGUI, KC_PGUP), MT(MOD_RALT, KC_END)
     ),
 /* Keymap 1: Symbols layer
  *
  * ,-------------------------------------------.                         ,-------------------------------------------.
  * |        |  !   |  @   |  #   |  $   |  %   |                         |  ^   |  &   |  *   |  (   |  )   |        |
  * |--------+------+------+------+------+------|------.           .------|------+------+------+------+------+--------|
- * |        |~(uk) ||(uk) |      | SLEP |  |   | Caps |           |      |  ~   |  _   |  +   |  {   |  }   |        |
+ * |        |~(uk) ||(uk) |      |      |  |   | Caps |           |      |  ~   |  _   |  +   |  {   |  }   |        |
  * |--------+------+------+------+------+------|------|           |------|------+------+------+------+------+--------|
- * |        |#(uk) |\(uk) |      | WAKE |  \   | Calc |           |[BALL]|  `   |  -   |  =   |  [   |  ]   |        |
+ * |        |#(uk) |\(uk) |      |      |  \   | Calc |           |[BALL]|  `   |  -   |  =   |  [   |  ]   |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *                        .------.   .------.                                 .------.   .-----.
  *                        |      |   |      |                                 |      |   |     |
@@ -75,8 +76,8 @@ MT(MOD_LALT, KC_HOME), MT(MOD_LCTL, KC_PGDN), LT(NUMB, KC_SPC), LT(SYMB, KC_ESC)
 //Figure something out for the inner keys
 [SYMB] = LAYOUT_gergo(
 KC_TRNS, KC_EXLM,       KC_AT,     KC_HASH, KC_DLR,  KC_PERC,                                            KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_TRNS,
-KC_TRNS, LSFT(KC_NUHS), LSFT(KC_NUBS), KC_NO, KC_SLEP, KC_PIPE, KC_CAPS,                          KC_TRNS, KC_TILD, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_TRNS,
-KC_TRNS, KC_NUHS,       KC_NUBS,       KC_NO, KC_WAKE, KC_BSLS, KC_CALC, KC_TRNS,        KC_TRNS, KC_TRNS, KC_GRV,  KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_TRNS,
+KC_TRNS, LSFT(KC_NUHS), LSFT(KC_NUBS), KC_NO, KC_NO, KC_PIPE, KC_CAPS,                          KC_TRNS, KC_TILD, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_TRNS,
+KC_TRNS, KC_NUHS,       KC_NUBS,       KC_NO, KC_NO, KC_BSLS, KC_CALC, KC_TRNS,        KC_TRNS, KC_TRNS, KC_GRV,  KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_TRNS,
                                             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 /* Keymap 2: Pad/Function layer

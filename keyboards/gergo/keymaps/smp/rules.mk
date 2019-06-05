@@ -4,8 +4,8 @@
 #----------------------------------------------------------------------------
 # Firmware options
 BALLER = yes 			# Enable to ball out
-BALLSTEP = 20  			# Multiple in px to move, multiplied by layer number
-SCROLLSTEP = 1 			# Lines to scroll with ball
+BALLSTEP = 10  			# Multiple in px to move, multiplied by layer number
+SCROLLSTEP = -1 			# Lines to scroll with ball
 MOUSEKEY_ENABLE = yes  		# Mouse keys(+4700), needed for baller
 
 #Debug options
